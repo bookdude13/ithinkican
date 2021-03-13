@@ -15,9 +15,9 @@ if not USE_VCAN:
         print("  Unable to shut down interfaces, might not be up")
     
     os.system('sudo ip link set can0 type can bitrate 1000000')
-    os.system('sudo ifconfig can0 txqueuelen 65536')
+    os.system('sudo ifconfig can0 up txqueuelen 65536')
     os.system('sudo ip link set can1 type can bitrate 1000000')
-    os.system('sudo ifconfig can1 txqueuelen 65536')
+    os.system('sudo ifconfig can1 up txqueuelen 65536')
 
 print("Opening up CAN devices...")
 can0 = can.interface.Bus(channel = 'can0', bustype = 'socketcan')
@@ -28,11 +28,8 @@ testMsg = can.Message(arbitration_id=0x123, data=[0, 1, 2, 3, 4, 5, 6, 7], exten
 testPeriodicTask = can1.send_periodic(testMsg, 1.0)
 
 print("can0 receiving messages...")
-for i in range(60):
-    msg = can0.recv(3.0)
-    if msg is None:
-        print("\tcan0", "Timed out")
-    else:
-        print("\tcan0")
+while True:
+    msg = can0.recv()
+    print("\t", msg)
 
 print("Done")
