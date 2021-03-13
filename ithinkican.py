@@ -20,8 +20,8 @@ if not USE_VCAN:
     os.system('sudo ifconfig can1 txqueuelen 65536')
 
 print("Opening up CAN devices...")
-can0 = can.interface.Bus(channel = 'can0', bustyp = 'socketcan_ctypes')
-can1 = can.interface.Bus(channel = 'can1', bustyp = 'socketcan_ctypes')
+can0 = can.interface.Bus(channel = 'can0', bustype = 'socketcan')
+can1 = can.interface.Bus(channel = 'can1', bustype = 'socketcan')
 
 print("can1 sending periodic message...")
 testMsg = can.Message(arbitration_id=0x123, data=[0, 1, 2, 3, 4, 5, 6, 7], extended_id=False)
