@@ -7,6 +7,13 @@ USE_VCAN=False
 
 print("Setting up CAN devices...")
 if not USE_VCAN:
+    # Try to close if already open
+    try:
+        os.system('sudo ifconfig can0 down')
+        os.system('sudo ifconfig can1 down')
+    except:
+        print("  Unable to shut down interfaces, might not be up")
+    
     os.system('sudo ip link set can0 type can bitrate 1000000')
     os.system('sudo ifconfig can0 txqueuelen 65536')
     os.system('sudo ip link set can1 type can bitrate 1000000')
@@ -25,7 +32,7 @@ for i in range(60):
     msg = can0.recv(3.0)
     if msg is None:
         print("\tcan0", "Timed out")
-    else
+    else:
         print("\tcan0")
 
 print("Done")
