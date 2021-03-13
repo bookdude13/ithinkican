@@ -1,2 +1,4 @@
+RPi.GPIO==0.7.0
+spidev==3.4
 python-can==3.3.4
 
